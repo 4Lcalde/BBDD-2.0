@@ -1,3 +1,4 @@
+const { isAuth, isAdmin } = require('../../middlewares/auth')
 const {
   getPlataformas,
   getPlataformaById,
@@ -10,8 +11,9 @@ const plataformasRouter = require('express').Router()
 
 plataformasRouter.get('/:id', getPlataformaById)
 plataformasRouter.get('/', getPlataformas)
-plataformasRouter.post('/', postPlataforma)
-plataformasRouter.put('/:id', putPlataforma)
-plataformasRouter.delete('/:id', deletePlataforma)
+//Los midelwares se ejecutan solamente si estas logueado
+plataformasRouter.post('/', [isAdmin], postPlataforma)
+plataformasRouter.put('/:id', [isAdmin], putPlataforma)
+plataformasRouter.delete('/:id', [isAdmin], deletePlataforma)
 
 module.exports = plataformasRouter

@@ -32,9 +32,14 @@ const postPlataforma = async (req, res, next) => {
 const putPlataforma = async (req, res, next) => {
   try {
     const { id } = req.params
+    //esto preserva los elementos anteriores para que cuando añada algo no se borre
     const oldPlataforma = await Plataforma.findById(id)
+
+    //esto actualiza todo de cero
     const newPlataforma = new Plataforma(req.body)
     newPlataforma._id = id
+
+    //esto suma los datos antiguos de los datos de la plataforma además de los nuevos que yo añada. 
     newPlataforma.juegos = [...oldPlataforma.juegos, ...req.body.juegos]
     const plataformaUpdated = await Plataforma.findByIdAndUpdate(
       id,
